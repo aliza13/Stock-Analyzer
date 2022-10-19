@@ -1,0 +1,2 @@
+# OutinTechUProject
+Stock analyzer/Predictor 
