@@ -5,8 +5,25 @@ import yfinance as yf
 import datetime 
 
 
-tickerdata = yf.Ticker(tickersymbol)
-tickerinfo = tickerdata.info
+ # input and output
+
+def getTick():
+    "This function asks the user for input and returns what ticker they are requesting"
+    userTicker = input("Type ticker of stock information to see: ")
+    while userTicker != str:
+            print("That is not a real ticker")
+            userTicker = input("Type ticker of stock information to see: ")
+            break
+
+    return userTicker
+
+
+whateverTick = getTick()
+
+
+#tickerdata = yf.Ticker(whateverTick)
+#tickerinfo = tickerdata.info
+#print(tickerinfo)
 
 """ 
 def get_ticker()
