@@ -26,37 +26,46 @@ def getTick():
 getTick()        
 print(tickers)
 
-def startDate():
-    start = input("Start date? YYYY-MM-DD format: ")
-    return start 
-
-def endDate():
-    end = input("End date? YYYY-MM-DD format: ")
-    return end 
-
-startAt = startDate()
-endAt = endDate()
+# def startDate():
+#     start = input("Start date? YYYY-MM-DD format: ")
+#     return start 
+# 
+# def endDate():
+#     end = input("End date? YYYY-MM-DD format: ")
+#     return end 
+# 
+# startAt = startDate()
+# endAt = endDate()
 # need to iterate through tickers though
 # df = yf.Ticker(tickers)
 
-# def stockInfo():
-#     # shows dividends 
-#     whateverTick.dividends
-#     # quarterly earnings
-#     whateverTick.quarterly_earnings
-#     # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
-#     # data = yf.download("SPY AAPL MSFT", start="2019-08-30", end="2020-01-31")
-# 
 
-# def yfCall():
-#     """Returns stock info"""
-#     tickerdata = yf.Ticker(whateverTick)
-#     tickerinfo = tickerdata.info
-#     # can do whateverTick.info["dayHigh"] or "fiftyTwoWeekLow" etc
-#     #print(tickerinfo)
-#     return tickerinfo 
-# 
-# infoOfStock = yfCall()
+def GetstockInfo():
+    """Returns stock info"""
+    # shows dividends 
+    # whateverTick.dividends
+    # quarterly earnings
+    infoAbt = []
+    for i in tickers:
+        infoAbt.append(yf.Ticker(i).info)
+    return infoAbt #returns long list of all Stock info 
+    # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
+    # data = yf.download("SPY AAPL MSFT", start="2019-08-30", end="2020-01-31")
+allTheInfo = GetstockInfo()
+
+stuffToSee = ['dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
+
+mydf = pd.DataFrame(allTheInfo)
+# ticker as index rather than a #
+mydf = mydf.set_index('symbol')
+mydf[mydf.columns[mydf.columns.isin(stuffToSee)]]
+
+print(mydf)
+
+
+""" I want to select out the following info... 'symbol' 'dividendYield' 'marketCap' 'previousClose' 'regularMarketOpen' 'fiftyTwoWeekHigh' (Low) """
+
+#     # can do .info["dayHigh"] or "fiftyTwoWeekLow" etc
 # mydf = pd.DataFrame(data= infoOfStock, columns= ['Stock', 'currentPrice'])
 # print(mydf)
 
