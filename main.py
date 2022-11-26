@@ -1,6 +1,6 @@
 # Stock Analyzer Project 
 
-from tracemalloc import start
+from multiprocessing.sharedctypes import Value
 import pandas as pd 
 import yfinance as yf 
 import datetime 
@@ -11,18 +11,28 @@ import datetime
 tickers = []
 
 def getTick():
-    "This function asks the user for input and returns what ticker they requested"
-    howMany = int(input("How many stocks do you want to compare?: "))
-    # how to make howMany only go up to 4
+    "This function asks the user for input and returns what ticker(s) they requested"
+    while True:
+        try:
+            howMany = int(input("How many stocks do you want to compare?: "))
+            if howMany > 4 or howMany < 1:
+                raise ValueError
+            break    
+        except ValueError:
+            print("That is not a valid number")        
+
     while howMany <= howMany:
-        # needs to be stricter on input
-        userTicker = input("Type ticker of stock information to see: ")
-        # file that has all ticker names... if input != a name in the list then
-        # recalls userTicker
-        tickers.append(str(userTicker))
-        if len(tickers) > howMany -1:
-            break
-        
+        try:
+            userTicker = input("Type ticker of stock information to see: ")
+            if len(userTicker) > 5:
+                raise ValueError
+            tickers.append(str(userTicker))
+            if len(tickers) > howMany -1: 
+                break
+        except ValueError:
+            print("That is not a valid ticker")        
+
+# file that has all ticker names... if input != a name in the list then        
 getTick()        
 print(tickers)
 
@@ -42,22 +52,23 @@ print(tickers)
 
 def GetstockInfo():
     """Returns stock info"""
-    # shows dividends 
-    # whateverTick.dividends
-    # quarterly earnings
     infoAbt = []
     for i in tickers:
-        infoAbt.append(yf.Ticker(i).info)
+        # one
+        infoAbt.append(yf.Ticker(i).info['symbol']) 
+        infoAbt.append(yf.Ticker(i).info['marketCap']) 
+        # infoAbt.append(yf.Ticker(i).info)
     return infoAbt #returns long list of all Stock info 
     # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
     # data = yf.download("SPY AAPL MSFT", start="2019-08-30", end="2020-01-31")
+
 allTheInfo = GetstockInfo()
 
 stuffToSee = ['dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
 
 mydf = pd.DataFrame(allTheInfo)
 # ticker as index rather than a #
-mydf = mydf.set_index('symbol')
+# mydf = mydf.set_index('symbol')
 mydf[mydf.columns[mydf.columns.isin(stuffToSee)]]
 
 print(mydf)

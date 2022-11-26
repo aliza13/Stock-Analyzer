@@ -1,37 +1,56 @@
-import pandas as pd 
+tickers = []
 
-dataList = ["Hello", "World", "!"]
+def getTick():
+    while True:
+        howMany = int(input("How many stocks do you want to compare?: "))
+        # how to make howMany only go up to 4
+        # 1-5 letters
+        while howMany <= howMany:
+            # needs to be stricter on input
+            userTicker = input("Type ticker of stock information to see: ")
+            # file that has all ticker names... if input != a name in the list then
+            # recalls userTicker
+            tickers.append(str(userTicker))
+            if len(tickers) > howMany -1:
+                break
+        
+getTick()        
+print(tickers)
 
-mydf = pd.DataFrame(dataList)
-
-mySeries = pd.Series(dataList)
-
-print(dataList[1])
-# return value at index, can do multiple
-print(mySeries)
-# data type = object
-print(mydf)
-# print(pd.__version__)
-
-a = ["A", "B", "C"]
-# newIndexABC = (a, pd.index == ["z", "y", "x"])
-# pd has no value of index
-# zyx, aka labels
-
-# daysOfWeek = {"day1": "Monday", "day2": "Tuesday", "day3": "Wednesday"}
-# dowSeries = pd.Series(daysOfWeek)
-# print(dowSeries)
-
-dowSet = {
-    "numOfDay": [1, 2, 3, 4, 5, 6, 7],
-    "day": ["Mon", "Tu", "Wed", "Th", "Fri", "Sat", "Sun"],
-    "fav": ["False", "False", "True", "False", "False", "False", "False"]
-} # must have same # of values
-dowdf2 = pd.DataFrame(dowSet)
-print(dowdf2)
-# .info() shows non-null, int64, object etc for columns
-
-print(dowdf2.loc[2])
+# import pandas as pd 
+# 
+# dataList = ["Hello", "World", "!"]
+# 
+# mydf = pd.DataFrame(dataList)
+# 
+# mySeries = pd.Series(dataList)
+# 
+# print(dataList[1])
+# # return value at index, can do multiple
+# print(mySeries)
+# # data type = object
+# print(mydf)
+# # print(pd.__version__)
+# 
+# a = ["A", "B", "C"]
+# # newIndexABC = (a, pd.index == ["z", "y", "x"])
+# # pd has no value of index
+# # zyx, aka labels
+# 
+# # daysOfWeek = {"day1": "Monday", "day2": "Tuesday", "day3": "Wednesday"}
+# # dowSeries = pd.Series(daysOfWeek)
+# # print(dowSeries)
+# 
+# dowSet = {
+#     "numOfDay": [1, 2, 3, 4, 5, 6, 7],
+#     "day": ["Mon", "Tu", "Wed", "Th", "Fri", "Sat", "Sun"],
+#     "fav": ["False", "False", "True", "False", "False", "False", "False"]
+# } # must have same # of values
+# dowdf2 = pd.DataFrame(dowSet)
+# print(dowdf2)
+# # .info() shows non-null, int64, object etc for columns
+# 
+# print(dowdf2.loc[2])
 # grabs second index from all data set
 # (dowdf2.loc[[2,4]]) only these two
 # (dowdf2.loc[2:4]) all 2-4
