@@ -1,21 +1,4 @@
-tickers = []
 
-def getTick():
-    while True:
-        howMany = int(input("How many stocks do you want to compare?: "))
-        # how to make howMany only go up to 4
-        # 1-5 letters
-        while howMany <= howMany:
-            # needs to be stricter on input
-            userTicker = input("Type ticker of stock information to see: ")
-            # file that has all ticker names... if input != a name in the list then
-            # recalls userTicker
-            tickers.append(str(userTicker))
-            if len(tickers) > howMany -1:
-                break
-        
-getTick()        
-print(tickers)
 
 # import pandas as pd 
 # 
@@ -58,7 +41,19 @@ print(tickers)
 # thisFile = pd.read_csv('NameOfCSV.csv')
 # print entire df (thisFile.to_string())
 
-print(dowdf2.head(4)) # or .tail
+# print(dowdf2.head(4)) # or .tail
+# def startDate():
+#     start = input("Start date? YYYY-MM-DD format: ")
+#     return start 
+# 
+# def endDate():
+#     end = input("End date? YYYY-MM-DD format: ")
+#     return end 
+# 
+# startAt = startDate()
+# endAt = endDate()
+# need to iterate through tickers though
+# df = yf.Ticker(tickers)
 
 """
 JSON keys from Yahoo Finance API
