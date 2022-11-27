@@ -5,9 +5,6 @@ import pandas as pd
 import yfinance as yf 
 import datetime 
 
-#aTick = yf.Ticker('APPL').info
-#print(aTick)
-
 tickers = []
 
 def getTick():
@@ -31,16 +28,13 @@ def getTick():
                 break
         except ValueError:
             print("That is not a valid ticker")        
-
-# file that has all ticker names... if input != a name in the list then        
+      
 getTick()        
 
 def GetstockInfo():
     """Returns stock info"""
     infoAbt = []
     for i in tickers:
-        # infoAbt.append(yf.Ticker(i).info['symbol']) 
-        # infoAbt.append(yf.Ticker(i).info['marketCap']) 
         infoAbt.append(yf.Ticker(i).info)
     return infoAbt #returns long list of all Stock info 
     # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
@@ -49,21 +43,24 @@ allTheInfo = GetstockInfo()
 
 def GrabWantedData():
     # key list
-    stuffToSee = ['dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
+    stuffToSee = ['symbol','dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
     prettierList = [] # will store values of ^^ 
-    item1 = allTheInfo[0]
+    item1 = allTheInfo[0] # need to iterate through all the desired tickers
     for i in stuffToSee:
         prettierList.append(item1[i])
     print(prettierList)
+    return prettierList
 
-stuff = GrabWantedData()
-print(stuff)
+for key, item in allTheInfo[0].items():
+    print(key, item)
 
-# mydf = pd.DataFrame(allTheInfo)
+#or for item in allTheInfo[0].items():
+#will print out a bunch of list
+
+
+# mydf = pd.DataFrame(allTheData)
 # ticker as index rather than a #
-# mydf = mydf.set_index('symbol')
-# mydf[mydf.columns[mydf.columns.isin(stuffToSee)]]
-
+# mydf = mydf.set_index('symbol') # does not work
 #     # can do .info["dayHigh"] or "fiftyTwoWeekLow" etc
-# mydf = pd.DataFrame(data= infoOfStock, columns= ['Stock', 'currentPrice'])
+# mydf = pd.DataFrame(data= allTheData, columns= ['Stock', 'currentPrice'])
 # print(mydf)
