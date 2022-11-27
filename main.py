@@ -3,7 +3,10 @@
 from multiprocessing.sharedctypes import Value
 import pandas as pd 
 import yfinance as yf 
-import datetime 
+import tkinter as tk
+from tkinter import *
+
+root = tk.Tk()
 
 tickers = []
 
@@ -31,36 +34,31 @@ def getTick():
       
 getTick()        
 
-def GetstockInfo():
-    """Returns stock info"""
-    infoAbt = []
-    for i in tickers:
-        infoAbt.append(yf.Ticker(i).info)
-    return infoAbt #returns long list of all Stock info 
     # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
     # data = yf.download("SPY AAPL MSFT", start="2019-08-30", end="2020-01-31")
-allTheInfo = GetstockInfo()
+# allTheInfo = GetstockInfo()
 
-def GrabWantedData():
-    # key list
+
+def GrabWantedData(tickerList):
     stuffToSee = ['symbol','dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
-    prettierList = [] # will store values of ^^ 
-    item1 = allTheInfo[0] # need to iterate through all the desired tickers
-    for i in stuffToSee:
-        prettierList.append(item1[i])
-    print(prettierList)
-    return prettierList
+    finalList = []
+    for i in tickerList:
+        infoAbt = yf.Ticker(i).info
+        prettierList = [] 
+        for item in stuffToSee:
+            prettierList.append(infoAbt[item])
+        finalList.append(prettierList)
+    mydf = pd.DataFrame(finalList, columns=stuffToSee)
+    mydf = mydf.set_index('symbol')
+    frame = Canvas(root)
+    frame.pack(mydf)
 
-for key, item in allTheInfo[0].items():
-    print(key, item)
+GrabWantedData(tickers)
 
-#or for item in allTheInfo[0].items():
-#will print out a bunch of list
+# final list has multiple lists from prettierList 
+# finalList[[prettierList['symbol': 'AAPL']]]
 
+root.mainloop()
 
-# mydf = pd.DataFrame(allTheData)
-# ticker as index rather than a #
 # mydf = mydf.set_index('symbol') # does not work
 #     # can do .info["dayHigh"] or "fiftyTwoWeekLow" etc
-# mydf = pd.DataFrame(data= allTheData, columns= ['Stock', 'currentPrice'])
-# print(mydf)
