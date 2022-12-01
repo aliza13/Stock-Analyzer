@@ -3,8 +3,10 @@
 from multiprocessing.sharedctypes import Value
 import pandas as pd 
 import yfinance as yf 
+import tkinter as tk
+from tkinter import *
 
-
+root = tk.Tk()
 
 tickers = []
 
@@ -32,16 +34,9 @@ def getTick():
       
 getTick()        
 
-
-def startDate():
-    startingAt = input("Start date? YYYY-MM-DD format: ")
-    return startingAt 
-
-def endDate():
-    endingAt = input("End date? YYYY-MM-DD format: ")
-    return endingAt 
-
-
+    # .history(period="1mo") etc 1d, 5d, 2y, ytd, max
+    # data = yf.download("SPY AAPL MSFT", start="2019-08-30", end="2020-01-31")
+# allTheInfo = GetstockInfo()
 
 
 def GrabWantedData(tickerList):
@@ -55,20 +50,13 @@ def GrabWantedData(tickerList):
         finalList.append(prettierList)
     mydf = pd.DataFrame(finalList, columns=stuffToSee)
     mydf = mydf.set_index('symbol')
-    print(mydf)
+
 GrabWantedData(tickers)
 
-""" csv file
-bring into a df or csv to compare them 1:1
-func
-call s/e date
-"""
-
-historyOfAStock = yf.Ticker('AAPL').history(start=startDate(), end=endDate())
-print(historyOfAStock)
-
-
 # final list has multiple lists from prettierList 
-# finalList[[prettierList['symbol': 'AAPL']]] data structure 
+# finalList[[prettierList['symbol': 'AAPL']]]
 
+root.mainloop()
 
+# mydf = mydf.set_index('symbol') # does not work
+#     # can do .info["dayHigh"] or "fiftyTwoWeekLow" etc
