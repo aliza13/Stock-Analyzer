@@ -4,8 +4,6 @@ from multiprocessing.sharedctypes import Value
 import pandas as pd 
 import yfinance as yf 
 
-
-
 tickers = []
 
 def getTick():
@@ -41,8 +39,7 @@ def endDate():
     endingAt = input("End date? YYYY-MM-DD format: ")
     return endingAt 
 
-
-
+dfCol = ['Symbol','Dividend Yield', 'Market Cap', 'Previous Close', 'Regular Market Open', '52 Week High']
 
 def GrabWantedData(tickerList):
     stuffToSee = ['symbol','dividendYield', 'marketCap', 'previousClose', 'regularMarketOpen', 'fiftyTwoWeekHigh']
@@ -53,10 +50,29 @@ def GrabWantedData(tickerList):
         for item in stuffToSee:
             prettierList.append(infoAbt[item])
         finalList.append(prettierList)
-    mydf = pd.DataFrame(finalList, columns=stuffToSee)
-    mydf = mydf.set_index('symbol')
+    mydf = pd.DataFrame(finalList, columns=dfCol)
+    mydf = mydf.set_index('Symbol')
     print(mydf)
-GrabWantedData(tickers)
+    # makes a comma seperated Values file!
+    # mydf.to_csv(r'csvFileOfStockInfo.csv')
+
+
+#GrabWantedData(tickers)
+
+beginDate = startDate()
+endDateInfo = endDate()
+
+# tickerList parameter is tickers list that user inputs
+def showingHistory(tickerList):
+    for i in tickerList: # i is ea ticker symbol ex. AAPL
+        historyCall = yf.Ticker(i).history(start=beginDate, end=endDateInfo)
+        #print(historyCall) # the history call is what the df should be
+        historyDf = pd.DataFrame(historyCall)
+        print(historyDf, "hi") # makes two data frames and prints them out
+
+
+        
+showingHistory(tickers)
 
 """ csv file
 bring into a df or csv to compare them 1:1
@@ -64,11 +80,5 @@ func
 call s/e date
 """
 
-historyOfAStock = yf.Ticker('AAPL').history(start=startDate(), end=endDate())
-print(historyOfAStock)
-
-
 # final list has multiple lists from prettierList 
 # finalList[[prettierList['symbol': 'AAPL']]] data structure 
-
-
