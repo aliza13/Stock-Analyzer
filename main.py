@@ -64,14 +64,16 @@ endDateInfo = endDate()
 
 # tickerList parameter is tickers list that user inputs
 def showingHistory(tickerList):
-    for i in tickerList: # i is ea ticker symbol ex. AAPL
+    historyList = []
+    for i in tickerList: # i is ea ticker symbol in list ex. AAPL. PFE
         historyCall = yf.Ticker(i).history(start=beginDate, end=endDateInfo)
-        #print(historyCall) # the history call is what the df should be
-        historyDf = pd.DataFrame(historyCall)
-        print(historyDf, "hi") # makes two data frames and prints them out
+        historyList.append(historyCall)
+        # the history call is what the df should be
+    for j in historyList: # takes list and splits it into two DFs
+        dfItem = pd.DataFrame(j)
+        print(dfItem)
 
 
-        
 showingHistory(tickers)
 
 """ csv file
