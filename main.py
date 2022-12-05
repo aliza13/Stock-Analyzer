@@ -76,7 +76,7 @@ def showingHistory(tickerList):
 
 showingHistory(tickers)
 
-""" csv file
+""" csv file --> excel
 bring into a df or csv to compare them 1:1
 func
 call s/e date
